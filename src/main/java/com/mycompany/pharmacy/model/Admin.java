@@ -8,6 +8,6 @@ package com.mycompany.pharmacy.model;
  *
  * @author young
  */
-public class Admin {
+public class Admin extends User {
     
 }
