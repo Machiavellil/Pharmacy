@@ -99,4 +99,8 @@ public class MedicineHandler {
             System.out.println("Error saving medicines to file: " + e.getMessage());
         }
     }
+
+    public List<Medicine> getAllMedicines() {
+        return medicines;
+    }
 }
