@@ -3,6 +3,7 @@ package com.mycompany.pharmacy.model;
 import com.mycompany.pharmacy.auth.AuthService;
 import java.io.IOException;
 
+
 public abstract class User {
     protected String id;
     
@@ -13,6 +14,8 @@ public abstract class User {
     protected String phone;
     
     protected String password;
+
+    public User() {}
     
     public void login() throws IOException
     {

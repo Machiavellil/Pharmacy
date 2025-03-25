@@ -1,79 +1,49 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.pharmacy.auth;
+
 import com.mycompany.pharmacy.model.User;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 
-/**
- *
- * @author young
- */
 public class AuthService {
-    public void login(String email, String password) throws IOException
-    {
-        String role = "";
-        
-        HashMap<String, String> loginf = new HashMap<>();
-        
-        BufferedReader br = new BufferedReader(new FileReader("users.txt"));
-        
+
+    public String login(String email, String password) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/mycompany/pharmacy/database/users.txt"));
         String line;
-        
         while ((line = br.readLine()) != null) {
-            
             String[] data = line.split(",");
-            
-            String emailf = data[0];
-            
-            String passwordf = data[1];
-            
-            String rolef = data[2];
-            
-            role = rolef;
-            
-            if (emailf.equals(email))
-            {
-                loginf.put(emailf, passwordf);
-                
-                break;
+            if (data.length >= 3) {
+                String emailf = data[0];
+                String passwordf = data[1];
+                String rolef = data[2];
+
+                if (emailf.equals(email)) {
+                    if (passwordf.equals(password)) {
+                        br.close();
+                        System.out.println("Welcome " + rolef);
+                        return rolef;
+                    } else {
+                        br.close();
+                        System.out.println("Incorrect password");
+                        return null;
+                    }
+                }
             }
-            // Process the data
         }
         br.close();
-        
-        if (loginf.isEmpty())
-        {
-            System.out.println("This user does not exist");
-        }
-        else if (loginf.get(email).equals(password))
-        {
-            System.out.println("Welcome " + role);
-        }
+        System.out.println("This user does not exist");
+        return null;
     }
-    
-    public void register(User user) throws IOException
-    {
-        BufferedWriter bw = new BufferedWriter(new FileWriter("users.txt"));
-        
-        bw.write(user.getEmail());
-        
-        bw.write(',');
-        
-        bw.write(user.getPassword());
-        
+
+    public void register(User user, String role) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/java/com/mycompany/pharmacy/database/users.txt", true)); // Append mode
+        bw.write(user.getEmail() + "," + user.getPassword() + "," + role);
+        bw.newLine();
         bw.close();
+        System.out.println("User registered successfully as " + role);
     }
-    
-    public void logout(User user)
-    {
-        System.out.println("Logged out successfully");
+
+    public void logout(User user) {
+        System.out.println(user.getEmail() + " logged out successfully");
     }
     
     public void resetPassword(String email)
