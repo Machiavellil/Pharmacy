@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class AuthService {
 
-    private static String hashPassword(String password) {
+    public static String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] hashBytes = md.digest(password.getBytes());
