@@ -22,7 +22,7 @@ public class Admin extends User {
         try {
             authService.register(user, user.getClass().getSimpleName());
         } catch (IOException e) {
-            System.out.println("❌ Error adding user: " + e.getMessage());
+            System.out.println("❌ Error adding user.: " + e.getMessage());
         }
     }
 
