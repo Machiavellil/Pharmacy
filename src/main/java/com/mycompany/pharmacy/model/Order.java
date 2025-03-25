@@ -1,13 +1,42 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.pharmacy.model;
 
-/**
- *
- * @author young
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class Order {
-    
+    private String orderId;
+    private Customer customer;
+    private List<OrderItem> items = new ArrayList<>();
+    private String status;
+
+    public Order(String orderId, Customer customer) {
+        this.orderId = orderId;
+        this.customer = customer;
+        this.status = "Pending";
+    }
+
+    public void addItem(OrderItem item) {
+        items.add(item);
+    }
+
+    public void updateStatus(String status) {
+        this.status = status;
+    }
+
+    public double calculateTotal() {
+        return items.stream().mapToDouble(OrderItem::getTotalPrice).sum();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Order ID: ").append(orderId).append("\n")
+                .append("Status: ").append(status).append("\n")
+                .append("Items:\n");
+        for (OrderItem item : items) {
+            sb.append("  - ").append(item).append("\n");
+        }
+        sb.append("Total: $").append(calculateTotal()).append("\n");
+        return sb.toString();
+    }
 }

@@ -2,12 +2,19 @@ package com.mycompany.pharmacy.ui;
 
 import com.mycompany.pharmacy.auth.AuthService;
 import com.mycompany.pharmacy.handler.AdminHandler;
+import com.mycompany.pharmacy.handler.MedicineHandler;
 import com.mycompany.pharmacy.model.Admin;
+import com.mycompany.pharmacy.model.Customer;
+
 import java.util.Scanner;
 
 public class MenuManager {
-
     private final Scanner scanner = new Scanner(System.in);
+    private final MedicineHandler medicineHandler;
+
+    public MenuManager(MedicineHandler medicineHandler) {
+        this.medicineHandler = medicineHandler;
+    }
 
     public void showAdminMenu(Admin admin) {
         AdminHandler adminHandler = new AdminHandler(admin);
@@ -32,13 +39,47 @@ public class MenuManager {
                 case 4 -> adminHandler.handleViewUsers();
                 case 5 -> adminHandler.handleManageSettings();
                 case 0 -> {
-                    AuthService authService = new AuthService();
                     AuthService.logout(admin);
                     System.out.println("✅ You have been logged out.");
                 }
                 default -> System.out.println("❌ Invalid choice. Try again.");
             }
 
+        } while (choice != 0);
+    }
+
+    public void showCustomerMenu(Customer customer) {
+        int choice;
+        do {
+            System.out.println("\n=== Customer Menu ===");
+            System.out.println("1. Browse & Add Medicines");
+            System.out.println("2. View Cart");
+            System.out.println("3. Place Order");
+            System.out.println("4. View Order History");
+            System.out.println("0. Logout");
+            System.out.print("Enter choice: ");
+            choice = Integer.parseInt(scanner.nextLine());
+
+            switch (choice) {
+                case 1 -> {
+                    MedicineSearchCLI searchCLI = new MedicineSearchCLI(medicineHandler, customer);
+                    searchCLI.search(); // interactive search and add to cart
+                }
+                case 2 -> customer.getCart().viewCart();
+                case 3 -> {
+                    if (customer.getCart().isEmpty()) {
+                        System.out.println("❌ Your cart is empty!");
+                    } else {
+                        customer.placeOrder();
+                    }
+                }
+                case 4 -> customer.viewOrderHistory();
+                case 0 -> {
+                    AuthService.logout(customer);
+                    System.out.println("✅ You have been logged out. Your cart will remain saved.");
+                }
+                default -> System.out.println("❌ Invalid choice. Try again.");
+            }
         } while (choice != 0);
     }
 }

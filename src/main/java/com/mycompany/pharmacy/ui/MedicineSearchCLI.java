@@ -4,14 +4,16 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import com.mycompany.pharmacy.handler.MedicineHandler;
+import com.mycompany.pharmacy.model.Customer;
 import com.mycompany.pharmacy.model.Medicine;
 
 public class MedicineSearchCLI {
-
     private final MedicineHandler medicineHandler;
+    private final Customer customer;
 
-    public MedicineSearchCLI(MedicineHandler handler) {
+    public MedicineSearchCLI(MedicineHandler handler, Customer customer) {
         this.medicineHandler = handler;
+        this.customer = customer;
     }
 
     public void search() {
@@ -31,7 +33,19 @@ public class MedicineSearchCLI {
                 System.out.println("❌ No suggestions found.");
             } else {
                 System.out.println("💡 Suggestions:");
-                suggestions.forEach(m -> System.out.println("➡️ " + m.getName()));
+                for (int i = 0; i < suggestions.size(); i++) {
+                    System.out.println((i + 1) + ". " + suggestions.get(i).getName() + " - $" + suggestions.get(i).getPrice());
+                }
+
+                System.out.print("➡️ Enter number to add to cart or 0 to cancel: ");
+                int choice = Integer.parseInt(scanner.nextLine());
+
+                if (choice > 0 && choice <= suggestions.size()) {
+                    Medicine selected = suggestions.get(choice - 1);
+                    System.out.print("➡️ Enter quantity: ");
+                    int quantity = Integer.parseInt(scanner.nextLine());
+                    customer.getCart().addItem(selected, quantity);
+                }
             }
         }
     }

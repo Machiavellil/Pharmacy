@@ -28,6 +28,9 @@ public class AdminHandler {
             case "Admin":
                 newUser = new Admin( email,password);
                 break;
+            case "Customer":
+                newUser = new Customer( email,password);
+                break;
             default:
                 System.out.println("❌ Invalid role.");
                 return;
