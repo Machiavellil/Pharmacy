@@ -26,7 +26,7 @@ public class AdminHandler {
         User newUser = null;
         switch (role) {
             case "Admin":
-                newUser = new Admin("NA", "Unknown", email, "Unknown", password);
+                newUser = new Admin( email,password);
                 break;
             default:
                 System.out.println("❌ Invalid role.");

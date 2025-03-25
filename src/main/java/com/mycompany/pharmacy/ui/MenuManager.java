@@ -1,5 +1,6 @@
 package com.mycompany.pharmacy.ui;
 
+import com.mycompany.pharmacy.auth.AuthService;
 import com.mycompany.pharmacy.handler.AdminHandler;
 import com.mycompany.pharmacy.model.Admin;
 import java.util.Scanner;
@@ -30,7 +31,11 @@ public class MenuManager {
                 case 3 -> adminHandler.handleDeleteUser();
                 case 4 -> adminHandler.handleViewUsers();
                 case 5 -> adminHandler.handleManageSettings();
-                case 0 -> System.out.println("Logging out...");
+                case 0 -> {
+                    AuthService authService = new AuthService();
+                    AuthService.logout(admin);
+                    System.out.println("✅ You have been logged out.");
+                }
                 default -> System.out.println("❌ Invalid choice. Try again.");
             }
 

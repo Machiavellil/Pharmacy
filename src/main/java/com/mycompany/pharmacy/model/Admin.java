@@ -1,5 +1,7 @@
 package com.mycompany.pharmacy.model;
 
+import com.mycompany.pharmacy.auth.AuthService;
+
 import java.io.*;
 import java.util.*;
 
@@ -7,20 +9,18 @@ public class Admin extends User {
 
     private final String userFilePath = "src/main/java/com/mycompany/pharmacy/database/users.txt";
 
-    public Admin(String id, String name, String email, String phone, String password) {
-        this.id = id;
-        this.name = name;
+    public Admin(String email, String password) {
         this.email = email;
-        this.phone = phone;
         this.password = password;
     }
 
+
+
     // Add user with role
     public void addUser(User user) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(userFilePath, true))) {
-            writer.write(user.getEmail() + "," + user.getPassword() + "," + user.getClass().getSimpleName());
-            writer.newLine();
-            System.out.println("✅ User " + user.getEmail() + " added as " + user.getClass().getSimpleName());
+        AuthService authService = new AuthService();
+        try {
+            authService.register(user, user.getClass().getSimpleName());
         } catch (IOException e) {
             System.out.println("❌ Error adding user: " + e.getMessage());
         }

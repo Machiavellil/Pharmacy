@@ -1,13 +1,15 @@
 package com.mycompany.pharmacy.handler;
 
 import com.mycompany.pharmacy.model.Medicine;
+
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MedicineHandler {
     private final List<Medicine> medicines;
 
     public MedicineHandler() {
-        // Hardcoded file loading 🔥
         medicines = Medicine.loadMedicinesFromFile();
     }
 
@@ -54,6 +56,7 @@ public class MedicineHandler {
         if (med != null) {
             med.updateStock(quantity);
             System.out.println("Stock updated. New stock: " + med.getStockQuantity());
+            saveMedicinesToFile(); // Save changes
         }
     }
 
@@ -63,6 +66,37 @@ public class MedicineHandler {
         if (med != null) {
             med.applyDiscount(percentage);
             System.out.println("Discount applied. New price: $" + med.getPrice());
+            saveMedicinesToFile(); // Save changes
+        }
+    }
+
+    public void addMedicine(Medicine medicine) {
+        medicines.add(medicine);
+        saveMedicinesToFile();
+        System.out.println("Medicine added successfully.");
+    }
+
+    public void removeMedicine(String id) {
+        Medicine med = searchMedicineById(id);
+        if (med != null) {
+            medicines.remove(med);
+            saveMedicinesToFile();
+            System.out.println("Medicine removed successfully.");
+        }
+    }
+
+    private void saveMedicinesToFile() {
+
+        String filePath = "src/main/java/com/mycompany/pharmacy/database/Drugs.txt";
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            for (Medicine med : medicines) {
+                String line = med.getId() + "," + med.getName() + "," + med.getManufacturer() + "," +
+                        med.getPrice() + "," + med.getStockQuantity() + "," + med.getType();
+                bw.write(line);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Error saving medicines to file: " + e.getMessage());
         }
     }
 }
