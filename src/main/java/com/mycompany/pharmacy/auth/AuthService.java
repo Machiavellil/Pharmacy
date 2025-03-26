@@ -64,6 +64,41 @@ public class AuthService {
         System.out.println("✅ " + user.getEmail() + " logged out successfully");
     }
 
+    public static void updateUserInFile(String oldEmail, String newEmail, String newPassword, String role) throws IOException {
+        File inputFile = new File("src/main/java/com/mycompany/pharmacy/database/users.txt");
+        File tempFile = new File("src/main/java/com/mycompany/pharmacy/database/temp_users.txt");
+
+        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+        String currentLine;
+        String hashedNewPassword = newPassword == null ? null : hashPassword(newPassword);
+
+        while ((currentLine = reader.readLine()) != null) {
+            String[] data = currentLine.split(",");
+            if (data[0].equals(oldEmail)) {
+                String emailToWrite = newEmail != null ? newEmail : data[0];
+                String passwordToWrite = hashedNewPassword != null ? hashedNewPassword : data[1];
+                writer.write(emailToWrite + "," + passwordToWrite + "," + role);
+            } else {
+                writer.write(currentLine);
+            }
+            writer.newLine();
+        }
+
+        writer.close();
+        reader.close();
+
+        if (!inputFile.delete() || !tempFile.renameTo(inputFile)) {
+            System.out.println("❌ Failed to update user");
+        } else {
+            System.out.println("✅ User updated successfully");
+        }
+    }
+
+
+
+
     public void resetPassword(String email) {
     }
 }

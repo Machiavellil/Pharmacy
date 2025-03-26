@@ -27,6 +27,16 @@ public class Order {
         return items.stream().mapToDouble(OrderItem::getTotalPrice).sum();
     }
 
+    // ✅ Added Getter for Order ID
+    public String getOrderId() {
+        return orderId;
+    }
+
+    // ✅ Added Getter for Status
+    public String getStatus() {
+        return status;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -10,8 +10,7 @@ public class Admin extends User {
     private final String userFilePath = "src/main/java/com/mycompany/pharmacy/database/users.txt";
 
     public Admin(String email, String password) {
-        this.email = email;
-        this.password = password;
+        super(email, password);
     }
 
 
