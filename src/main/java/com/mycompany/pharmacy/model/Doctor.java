@@ -10,16 +10,13 @@ import java.nio.file.*; //Buffer, paths, files, etc.
 
 public class Doctor extends User {
     String specialisation; //Specialisation of the doctor.
-    String dose; //Dosage of medicine.
-    String med; //Medicine.
-    String prescriptionDetails; //Other details of the prescription like when and how to take the medicine.
     String prescriptionFile = "src/main/java/com/mycompany/pharmacy/database/prescriptions.txt"; //File variable for prescriptions.
     String medicines = "src/main/java/com/mycompany/pharmacy/database/Drugs.txt"; //File variable for drugs.
-    ArrayList<Prescription> prescription = new ArrayList<>(); //List of prescriptions the doctor has written.
     ArrayList<String> consultations = new ArrayList<>(); //List of consultations.
     Scanner input = new Scanner(System.in); //Object in Scanner for inputting.
-    Doctor doctor =  new Doctor(); //Object in Doctor.
-    PharmSystem pharm =  new PharmSystem(); //Object in PharmSystem.
+    public Doctor(String email, String password) {
+        super(email, password);
+    }
     public void writePrescription(User patient, String DocName, String prescriptionFile, String medicinesInput, int prescriptionID) {
        try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(prescriptionFile), StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
            /*This part allows us to write into the file multiple times, and it
