@@ -36,7 +36,7 @@ public class Main {
             switch (role) {
                 case "admin" -> newUser = new Admin(email, password);
                 case "customer" -> newUser = new Customer(email, password);
-//                case "doctor" -> newUser = new Doctor(email, password);
+                case "doctor" -> newUser = new Doctor(email, password);
 //                case "pharmacist" -> newUser = new Pharmacist(email, password);
 //                case "supplier" -> newUser = new Supplier(email, password);
 //                case "delivery" -> newUser = new DeliveryAgent(email, password);
