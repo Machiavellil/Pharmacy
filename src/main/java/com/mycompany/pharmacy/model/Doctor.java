@@ -2,34 +2,53 @@ package com.mycompany.pharmacy.model;
 import com.mycompany.pharmacy.handler.PharmSystem;
 import com.mycompany.pharmacy.model.Medicine;
 import com.mycompany.pharmacy.model.Prescription;
-import java.util.*;
+import com.mycompany.pharmacy.handler.PrescriptionManager;
+import com.mycompany.pharmacy.handler.PrescriptionPersistence;
+import java.util.*; //For lists, scanner, etc.
+import java.io.*; //Exception Handling
+import java.nio.file.*; //Buffer, paths, files, etc.
 
 public class Doctor extends User {
     String specialisation; //Specialisation of the doctor.
     String dose; //Dosage of medicine.
+    String med; //Medicine.
     String prescriptionDetails; //Other details of the prescription like when and how to take the medicine.
+    String prescriptionFile = "src/main/java/com/mycompany/pharmacy/database/prescriptions.txt"; //File variable for prescriptions.
+    String medicines = "src/main/java/com/mycompany/pharmacy/database/Drugs.txt"; //File variable for drugs.
     ArrayList<Prescription> prescription = new ArrayList<>(); //List of prescriptions the doctor has written.
     ArrayList<String> consultations = new ArrayList<>(); //List of consultations.
-    Scanner input = new Scanner(System.in);
+    Scanner input = new Scanner(System.in); //Object in Scanner for inputting.
     Doctor doctor =  new Doctor(); //Object in Doctor.
     PharmSystem pharm =  new PharmSystem(); //Object in PharmSystem.
-    Medicine med = new Medicine(); //Object in Medicine.
-    public void writePrescription(Customer patient, Prescription prescription) {
-       System.out.println("Enter the patient's email: ");
-       String patientEmail = input.nextLine();
-       pharm.findPatient(patientEmail);
-       System.out.println("\n=== Prescription ===");
-       System.out.print("Medicine: \n");
-       med.getName();
-       System.out.print("Dosage: \n");
-       dose = input.nextLine();
-       System.out.print("Other Details: \n");
-       prescriptionDetails = input.nextLine();
-       /*This function lets the doctor search for a patient in the system by their email.
-       When the patient is found, the doctor will proceed with writing a prescription.
-       The prescription will contain the name of the medicine, its dosage, and when to take it.*/
+    public void writePrescription(User patient, String DocName, String prescriptionFile, String medicinesInput, int prescriptionID) {
+       try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(prescriptionFile), StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
+           /*This part allows us to write into the file multiple times, and it
+           creates the file if it doesn't exist, and appends into the file if it exists.*/
+              bw.write("# Prescription for " + patient.getEmail() + " (customer)\n"); //Prescription header.
+              bw.write(String.format("%d, %s, %s\n", prescriptionID, DocName, patient.getEmail()));
+              /*Writes in the file with a fixed format.*/
+              if (medicinesInput.contains(",")) {
+                  String[] medicines = medicinesInput.split("\\s*, \\s*");
+                  for (String med : medicines) {
+                      bw.write("MED: " + med.trim() + "\n");
+                  }
+              }
+              else {
+                  bw.write("MED: " + medicinesInput.trim() + "\n");
+              }
+              /*This parts handles the data entry of either one medicine, or multiple
+              medicines.*/
+              bw.write("END");
+       }
+       catch (IOException e) {
+           System.err.println("Failed to write prescription: " + e.getMessage());
+       }
+       //Catches file access errors and prints user-friendly message.
     };
-    public void viewPatientHistory(Customer patient) {
+    public void viewPatientHistory(User patient) {
+        
+        System.out.println("\n=== Patient History ===");
+        
         /* A patient's history contains his past prescriptions, allergies,
         medical conditions, lab and test results, and notes from past appointments with doctors
         The doctor is supposed to search for a patient in the system
@@ -37,7 +56,7 @@ public class Doctor extends User {
         If the patient is not found, the doctor adds him to the patient list
         */
     };
-    public void addMedicalRecord(Customer patient, String record) {
+    public void addMedicalRecord(User patient, String record) {
         /* Medical records are like patient diaries
         During the appointment, a doctor will take note of what the patient complains of,
         what the doctor found, what the doctor did to help the patient (as in prescribe medicine),
