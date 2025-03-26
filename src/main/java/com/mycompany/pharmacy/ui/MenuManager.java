@@ -39,6 +39,7 @@ public class MenuManager {
             System.out.println("4. View All Users");
             System.out.println("5. Manage Settings");
             System.out.println("6. Update Profile");
+            System.out.println("7. Reset Password");
             System.out.println("0. Logout");
             System.out.print("Enter choice: ");
 
@@ -51,6 +52,15 @@ public class MenuManager {
                 case 4 -> adminHandler.handleViewUsers();
                 case 5 -> adminHandler.handleManageSettings();
                 case 6 -> updateProfile(admin, "admin");
+                case 7 -> {
+                    System.out.println("Enter your new password: ");
+
+                    String newPassword = scanner.nextLine();
+
+                    admin.resetPassword(newPassword);
+
+                    System.out.println("Password updated!");
+                }
                 case 0 -> {
                     AuthService.logout(admin);
                     System.out.println("✅ You have been logged out.");
@@ -74,6 +84,7 @@ public class MenuManager {
             System.out.println("5. Cancel Order");
             System.out.println("6. Update Profile");
             System.out.println("7. View Prescriptions");
+            System.out.println("8. Reset Password");
             System.out.println("0. Logout");
             System.out.print("Enter choice: ");
             choice = Integer.parseInt(scanner.nextLine());
@@ -95,6 +106,11 @@ public class MenuManager {
                 case 5 -> customer.cancelOrder();
                 case 6 -> updateProfile(customer, "customer");
                 case 7 -> customer.viewPrescriptions();
+                case 8 -> {
+                    String newPassword = scanner.nextLine();
+
+                    customer.resetPassword(newPassword);
+                }
                 case 0 -> {
                     AuthService.logout(customer);
                     System.out.println("✅ You have been logged out. Your cart will remain saved.");
@@ -146,6 +162,7 @@ public class MenuManager {
             System.out.println("1. View Patient Profile.");
             System.out.println("2. View Consultations.");
             System.out.println("3. Consult Pharmacy.");
+            System.out.println("4. Reset Password");
             System.out.println("0. Logout.");
             System.out.print("Enter your choice: ");
             choice = input.nextInt();
@@ -195,6 +212,11 @@ public class MenuManager {
                     doc.consultPharmacy(pharmacist, Q);
                     /*This part lets the doctor send a consultation to the pharmacist,
                     calling the respective function from the Doctor Class.*/
+                case 4:
+                        String newPassword = scanner.nextLine();
+
+                        doc.resetPassword(newPassword);
+
                 case 0:
                     AuthService.logout(doc);
                     System.out.println("You have successfully logged out!");

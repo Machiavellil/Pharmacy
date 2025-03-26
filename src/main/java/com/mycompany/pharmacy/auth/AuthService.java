@@ -100,5 +100,8 @@ public class AuthService {
 
 
     public void resetPassword(String email) {
+        PasswordReset passwordReset = new PasswordReset();
+
+        passwordReset.requestReset(email);
     }
 }
