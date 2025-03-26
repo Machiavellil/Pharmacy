@@ -54,7 +54,6 @@ public class Main {
             String email = scanner.nextLine();
             System.out.print("Enter Password: ");
             String password = scanner.nextLine();
-
             try {
                 String role = AuthService.login(email, password);
                 if (role != null) {
@@ -73,6 +72,8 @@ public class Main {
             } catch (IOException e) {
                 System.out.println("❌ An error occurred during login: " + e.getMessage());
             }
+
+
         } else {
             System.out.println("❌ Invalid choice. Exiting...");
         }
