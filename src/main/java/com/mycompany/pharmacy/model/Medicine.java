@@ -13,6 +13,7 @@ public class Medicine {
     private double price;
     private int stockQuantity;
     private String type;
+    private boolean prescriptionRequired;
 
     public Medicine(String id, String name, String manufacturer, double price, int stockQuantity, String type) {
         this.id = id;
@@ -21,6 +22,8 @@ public class Medicine {
         this.price = price;
         this.stockQuantity = stockQuantity;
         this.type = type;
+        this.prescriptionRequired = !type.equalsIgnoreCase("OTC");
+
     }
 
     public Medicine() {}
@@ -81,4 +84,7 @@ public class Medicine {
 
         return medicines;
     }
+
+    public boolean isPrescriptionRequired() { return prescriptionRequired; }
+
 }

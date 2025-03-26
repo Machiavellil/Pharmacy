@@ -1,0 +1,16 @@
+# Prescriptions Database
+# Format: prescriptionId,doctorName,patientName
+# Followed by MED:medicineName for each medicine
+# END marks the end of each prescription 
+
+
+# Prescription for Ali (customer)
+1,Dr. Smith,ali
+MED:Losartan
+END
+
+# Prescription for Ahmed (customer)
+2,Dr. Johnson,ahmed
+MED:Metformin
+MED:Insulin
+END 

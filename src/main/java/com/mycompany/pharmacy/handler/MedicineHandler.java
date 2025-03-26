@@ -28,12 +28,9 @@ public class MedicineHandler {
     public Medicine searchMedicineById(String id) {
         for (Medicine med : medicines) {
             if (med.getId().equalsIgnoreCase(id)) {
-                System.out.println("Medicine found:");
-                med.displayInfo();
                 return med;
             }
         }
-        System.out.println("Medicine with ID " + id + " not found.");
         return null;
     }
 
@@ -41,12 +38,9 @@ public class MedicineHandler {
     public Medicine searchMedicineByName(String name) {
         for (Medicine med : medicines) {
             if (med.getName().equalsIgnoreCase(name)) {
-                System.out.println("Medicine found:");
-                med.displayInfo();
                 return med;
             }
         }
-        System.out.println("Medicine with Name '" + name + "' not found.");
         return null;
     }
 

@@ -34,7 +34,8 @@ public class MedicineSearchCLI {
             } else {
                 System.out.println("💡 Suggestions:");
                 for (int i = 0; i < suggestions.size(); i++) {
-                    System.out.println((i + 1) + ". " + suggestions.get(i).getName() + " - $" + suggestions.get(i).getPrice());
+                    System.out.println((i + 1) + ". " + suggestions.get(i).getName() + " - $" + suggestions.get(i).getPrice() +
+                            (suggestions.get(i).isPrescriptionRequired() ? " (Prescription Required)" : ""));
                 }
 
                 System.out.print("➡️ Enter number to add to cart or 0 to cancel: ");
@@ -42,6 +43,13 @@ public class MedicineSearchCLI {
 
                 if (choice > 0 && choice <= suggestions.size()) {
                     Medicine selected = suggestions.get(choice - 1);
+
+                    // ✅ Prescription Check
+                    if (selected.isPrescriptionRequired() && !customer.hasValidPrescriptionFor(selected)) {
+                        System.out.println("❌ You need a valid prescription to purchase " + selected.getName() + ".");
+                        continue; // Skip adding to cart
+                    }
+
                     System.out.print("➡️ Enter quantity: ");
                     int quantity = Integer.parseInt(scanner.nextLine());
                     customer.getCart().addItem(selected, quantity);
@@ -49,4 +57,5 @@ public class MedicineSearchCLI {
             }
         }
     }
+
 }

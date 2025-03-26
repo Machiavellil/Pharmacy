@@ -15,11 +15,9 @@ public abstract class User {
         this.password = password;
     }
 
-    // General profile update with file persistence
     public void updateProfile(String newEmail, String newPassword, String role) {
         String oldEmail = this.email;
 
-        // Update object data
         if (newEmail != null && !newEmail.isBlank()) {
             this.email = newEmail;
         }
@@ -27,7 +25,6 @@ public abstract class User {
             this.password = newPassword;
         }
 
-        // Update the users.txt file
         try {
             AuthService.updateUserInFile(oldEmail, this.email, this.password, role);
         } catch (IOException e) {
@@ -36,7 +33,7 @@ public abstract class User {
         }
     }
 
-    // Getters
+
     public String getEmail() {
         return email;
     }

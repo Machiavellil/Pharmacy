@@ -1,6 +1,7 @@
 package com.mycompany.pharmacy.model;
 
 import com.mycompany.pharmacy.handler.MedicineHandler;
+import com.mycompany.pharmacy.handler.PrescriptionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +10,21 @@ import java.util.Scanner;
 public class Customer extends User {
     private final Cart cart = new Cart();
     private final List<Order> orderHistory = new ArrayList<>();
+    private final List<Prescription> prescriptions = new ArrayList<>();
 
     public Customer(String email, String password) {
         super(email, password);
+    }
+
+    public void loadPrescriptions(PrescriptionManager prescriptionManager) {
+        // Clear existing prescriptions
+        prescriptions.clear();
+        // Load all prescriptions
+        List<Prescription> allPrescriptions = prescriptionManager.getPrescriptions();
+        // Filter prescriptions for this customer
+        allPrescriptions.stream()
+                .filter(p -> p.getPatientName().toLowerCase().equals(this.getEmail().split("@")[0].toLowerCase()))
+                .forEach(prescriptions::add);
     }
 
     public Cart getCart() {
@@ -28,9 +41,16 @@ public class Customer extends User {
             return;
         }
 
+        for (CartItem item : cart.getItems()) {
+            Medicine med = item.getMedicine();
+            if (med.isPrescriptionRequired() && !hasValidPrescriptionFor(med)) {
+                System.out.println("🚫 Cannot place order. Medicine '" + med.getName() + "' requires a valid prescription.");
+                return;
+            }
+        }
+
         String orderId = "ORD" + System.currentTimeMillis();
         Order order = new Order(orderId, this);
-
         cart.getItems().forEach(cartItem -> order.addItem(cartItem.toOrderItem()));
 
         order.updateStatus("Confirmed");
@@ -52,7 +72,6 @@ public class Customer extends User {
         }
     }
 
-    // ✅ Cancel Order Feature
     public void cancelOrder() {
         if (orderHistory.isEmpty()) {
             System.out.println("❌ No orders found to cancel.");
@@ -81,5 +100,28 @@ public class Customer extends User {
         } else {
             System.out.println("❌ Invalid choice.");
         }
+    }
+
+    public void addPrescription(Prescription prescription) {
+        prescriptions.add(prescription);
+        System.out.println("✅ Prescription added successfully.");
+    }
+
+    public List<Prescription> getPrescriptions() {
+        return prescriptions;
+    }
+
+    public boolean hasValidPrescriptionFor(Medicine selected) {
+        return prescriptions.stream()
+                .anyMatch(p -> p.isMedicineAllowed(selected));
+    }
+
+    public void viewPrescriptions() {
+        if (prescriptions.isEmpty()) {
+            System.out.println("📄 No prescriptions found.");
+            return;
+        }
+        System.out.println("\n=== Your Prescriptions ===");
+        prescriptions.forEach(Prescription::displayPrescription);
     }
 }

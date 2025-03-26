@@ -1,5 +1,6 @@
 package com.mycompany.pharmacy.model;
 
+import com.mycompany.pharmacy.handler.PrescriptionManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,4 +44,18 @@ public class Cart {
     public void clearCart() {
         items.clear();
     }
+
+    public boolean validateCartWithPrescription(Prescription prescription) {
+        for (CartItem item : items) {
+            Medicine med = item.getMedicine();
+            // If the medicine is prescription-only and not in the prescription -> reject
+            if (med.isPrescriptionRequired() && !prescription.isMedicineAllowed(med)) {
+                System.out.println("🚫 " + med.getName() + " requires a valid prescription!");
+                return false;
+            }
+        }
+        System.out.println("✅ Prescription validation passed.");
+        return true;
+    }
+
 }

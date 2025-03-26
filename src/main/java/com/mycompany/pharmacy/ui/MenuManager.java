@@ -3,6 +3,7 @@ package com.mycompany.pharmacy.ui;
 import com.mycompany.pharmacy.auth.AuthService;
 import com.mycompany.pharmacy.handler.AdminHandler;
 import com.mycompany.pharmacy.handler.MedicineHandler;
+import com.mycompany.pharmacy.handler.PrescriptionManager;
 import com.mycompany.pharmacy.model.Admin;
 import com.mycompany.pharmacy.model.Customer;
 
@@ -11,9 +12,11 @@ import java.util.Scanner;
 public class MenuManager {
     private final Scanner scanner = new Scanner(System.in);
     private final MedicineHandler medicineHandler;
+    private final PrescriptionManager prescriptionManager;
 
     public MenuManager(MedicineHandler medicineHandler) {
         this.medicineHandler = medicineHandler;
+        this.prescriptionManager = new PrescriptionManager(medicineHandler);
     }
 
     public void showAdminMenu(Admin admin) {
@@ -27,7 +30,7 @@ public class MenuManager {
             System.out.println("3. Delete User");
             System.out.println("4. View All Users");
             System.out.println("5. Manage Settings");
-            System.out.println("6. Update Profile");  // ✅ Added Update Profile
+            System.out.println("6. Update Profile");
             System.out.println("0. Logout");
             System.out.print("Enter choice: ");
 
@@ -39,7 +42,7 @@ public class MenuManager {
                 case 3 -> adminHandler.handleDeleteUser();
                 case 4 -> adminHandler.handleViewUsers();
                 case 5 -> adminHandler.handleManageSettings();
-                case 6 -> updateProfile(admin, "admin");  // ✅ Profile Update for Admin
+                case 6 -> updateProfile(admin, "admin");
                 case 0 -> {
                     AuthService.logout(admin);
                     System.out.println("✅ You have been logged out.");
@@ -51,6 +54,8 @@ public class MenuManager {
     }
 
     public void showCustomerMenu(Customer customer) {
+        customer.loadPrescriptions(prescriptionManager);
+        
         int choice;
         do {
             System.out.println("\n=== Customer Menu ===");
@@ -59,7 +64,8 @@ public class MenuManager {
             System.out.println("3. Place Order");
             System.out.println("4. View Order History");
             System.out.println("5. Cancel Order");
-            System.out.println("6. Update Profile");  // ✅ Added Update Profile
+            System.out.println("6. Update Profile");
+            System.out.println("7. View Prescriptions");
             System.out.println("0. Logout");
             System.out.print("Enter choice: ");
             choice = Integer.parseInt(scanner.nextLine());
@@ -67,7 +73,7 @@ public class MenuManager {
             switch (choice) {
                 case 1 -> {
                     MedicineSearchCLI searchCLI = new MedicineSearchCLI(medicineHandler, customer);
-                    searchCLI.search(); // interactive search and add to cart
+                    searchCLI.search();
                 }
                 case 2 -> customer.getCart().viewCart();
                 case 3 -> {
@@ -78,8 +84,9 @@ public class MenuManager {
                     }
                 }
                 case 4 -> customer.viewOrderHistory();
-                case 5 -> customer.cancelOrder();  // ✅ Cancel order handling
-                case 6 -> updateProfile(customer, "customer");  // ✅ Call updateProfile method
+                case 5 -> customer.cancelOrder();
+                case 6 -> updateProfile(customer, "customer");
+                case 7 -> customer.viewPrescriptions();
                 case 0 -> {
                     AuthService.logout(customer);
                     System.out.println("✅ You have been logged out. Your cart will remain saved.");
@@ -89,7 +96,6 @@ public class MenuManager {
         } while (choice != 0);
     }
 
-
     private void updateProfile(com.mycompany.pharmacy.model.User user, String role) {
         try {
             System.out.print("Enter new email (leave blank to keep current): ");
@@ -97,7 +103,6 @@ public class MenuManager {
             System.out.print("Enter new password (leave blank to keep current): ");
             String newPassword = scanner.nextLine();
 
-            // If inputs are blank, pass null to skip update
             newEmail = newEmail.isBlank() ? null : newEmail;
             newPassword = newPassword.isBlank() ? null : newPassword;
 
@@ -108,6 +113,4 @@ public class MenuManager {
             e.printStackTrace();
         }
     }
-
-
 }
