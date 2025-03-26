@@ -157,7 +157,7 @@ public class MenuManager {
         int choice2;
         Scanner input = new Scanner(System.in);
         choice = input.nextInt();
-        while (choice != 0) {
+        do {
             System.out.println("\n=== Doctor Menu ===");
             System.out.println("1. View Patient Profile.");
             System.out.println("2. View Consultations.");
@@ -227,6 +227,6 @@ public class MenuManager {
                 'Invalid Choice' will be printed.*/
             }
         }
-        
+        while (choice!= 0);
     }
 }

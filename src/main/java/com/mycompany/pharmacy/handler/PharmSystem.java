@@ -7,8 +7,7 @@ import java.util.*;
  * @author jojos
  */
 public class PharmSystem {
-    private final ArrayList<Customer> patient; //List of patients 
-    PharmSystem pharm = new PharmSystem(); //Object in PharmSystem
+    private final ArrayList<Customer> patient; //List of patients.
     String EMAIL, PASSWORD; //Variables for the object
     Customer customer = new Customer(EMAIL, PASSWORD); //Object in Customer
     public PharmSystem() {
