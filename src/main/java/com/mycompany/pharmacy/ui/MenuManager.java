@@ -10,6 +10,7 @@ import com.mycompany.pharmacy.model.Customer;
 import com.mycompany.pharmacy.model.Doctor;
 import com.mycompany.pharmacy.model.Pharmacist;
 import com.mycompany.pharmacy.model.Prescription;
+import com.mycompany.pharmacy.model.User;
 
 import java.util.Scanner;
 
@@ -121,10 +122,13 @@ public class MenuManager {
         String E = " ", P = " ", Q = " ";
         String rec = " ", res = " ";
         String docName = " ", patName = " ";
+        String presc = " ", Doc = " ", medInput = " ";
+        int presID = 0;
         PharmSystem pharmacy = new PharmSystem(); //Object in PharmSystem.
         Prescription pres =  new Prescription(docName, patName); //Object in Prescription.
-        Customer patient = new Customer(E, P); //Object in Customer.
         Pharmacist pharmacist = new Pharmacist(); //Object in Pharmacist.
+        Customer pat = new Customer(E, P);
+        User patient = new User() {};
         int choice;
         int choice1;
         int choice2;
@@ -157,7 +161,7 @@ public class MenuManager {
                     switch (choice1) {
                         case 1 -> doc.viewPatientHistory(patient);
                         case 2 -> doc.addMedicalRecord(patient, rec);
-                        case 3 -> doc.writePrescription(patient, pres);
+                        case 3 -> doc.writePrescription(patient, Doc, presc, medInput, presID);
                         default -> System.out.println("Invalid Choice.");
                         /*After the choice is entered, respective functions from the
                         Doctor Class are called. 'Invalid Choice' is printed when a number
@@ -173,7 +177,7 @@ public class MenuManager {
                     sent to him, and to respond to any of them.*/
                     switch (choice2) {
                         case 1 -> doc.viewConsultations();
-                        case 2 -> doc.respondToConsultation(patient, res);
+                        case 2 -> doc.respondToConsultation(pat, res);
                         default -> System.out.println("Invalid Choice");
                         /*After the choice is entered, respective functions from the
                         Doctor Class are called. 'Invalid Choice' is printed when a number
