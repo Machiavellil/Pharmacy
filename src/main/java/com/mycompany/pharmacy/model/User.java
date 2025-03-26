@@ -1,6 +1,8 @@
 package com.mycompany.pharmacy.model;
 
 import com.mycompany.pharmacy.auth.AuthService;
+import com.mycompany.pharmacy.auth.PasswordReset;
+
 import java.io.IOException;
 
 public abstract class User {
@@ -40,5 +42,13 @@ public abstract class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public void resetPassword(String newPassword) {
+        PasswordReset passwordReset = new PasswordReset();
+
+        passwordReset.requestReset(email);
+
+        passwordReset.updatePassword(newPassword);
     }
 }
