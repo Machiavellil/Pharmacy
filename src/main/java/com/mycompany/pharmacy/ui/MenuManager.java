@@ -4,8 +4,12 @@ import com.mycompany.pharmacy.auth.AuthService;
 import com.mycompany.pharmacy.handler.AdminHandler;
 import com.mycompany.pharmacy.handler.MedicineHandler;
 import com.mycompany.pharmacy.handler.PrescriptionManager;
+import com.mycompany.pharmacy.handler.PharmSystem;
 import com.mycompany.pharmacy.model.Admin;
 import com.mycompany.pharmacy.model.Customer;
+import com.mycompany.pharmacy.model.Doctor;
+import com.mycompany.pharmacy.model.Pharmacist;
+import com.mycompany.pharmacy.model.Prescription;
 
 import java.util.Scanner;
 
@@ -112,5 +116,84 @@ public class MenuManager {
             System.out.println("❌ Error updating profile.");
             e.printStackTrace();
         }
+    }
+     public void showDoctorMenu(Doctor doc) {
+        String E = " ", P = " ", Q = " ";
+        String rec = " ", res = " ";
+        String docName = " ", patName = " ";
+        PharmSystem pharmacy = new PharmSystem(); //Object in PharmSystem.
+        Prescription pres =  new Prescription(docName, patName); //Object in Prescription.
+        Customer patient = new Customer(E, P); //Object in Customer.
+        Pharmacist pharmacist = new Pharmacist(); //Object in Pharmacist.
+        int choice;
+        int choice1;
+        int choice2;
+        Scanner input = new Scanner(System.in);
+        choice = input.nextInt();
+        while (choice != 0) {
+            System.out.println("\n=== Doctor Menu ===");
+            System.out.println("1. View Patient Profile.");
+            System.out.println("2. View Consultations.");
+            System.out.println("3. Consult Pharmacy.");
+            System.out.println("0. Logout.");
+            System.out.print("Enter your choice: ");
+            choice = input.nextInt();
+            /*This part displays the options in the doctor's menu, and asks the doctor
+            to enter the choice.*/
+            switch  (choice) {
+                case 1:
+                    System.out.println("Please enter the patient's email: ");
+                    String e = input.nextLine();
+                    pharmacy.findPatient(e);
+                    //Patient's email is entered to get their profile.
+                    System.out.println("\n=== Patient's Profile ===");
+                    System.out.println("1. View Patient History.");
+                    System.out.println("2. Add Medical Record.");
+                    System.out.println("3. Write Prescription.");
+                    System.out.println("Enter your choice: ");
+                    choice1 = input.nextInt();
+                    /*This part displays the things a doctor can access in the patient's profile,
+                    and asks the doctor to enter a choice.*/
+                    switch (choice1) {
+                        case 1 -> doc.viewPatientHistory(patient);
+                        case 2 -> doc.addMedicalRecord(patient, rec);
+                        case 3 -> doc.writePrescription(patient, pres);
+                        default -> System.out.println("Invalid Choice.");
+                        /*After the choice is entered, respective functions from the
+                        Doctor Class are called. 'Invalid Choice' is printed when a number
+                        that is not from the above is entered.*/
+                    }
+                case 2:
+                    System.out.println("\n=== Consultations ===");
+                    System.out.println("1. View all Consultations.");
+                    System.out.println("2. Respond to Consultation.");
+                    System.out.println("Enter your choice: ");
+                    choice2 = input.nextInt();
+                    /*This part displays the doctor's availability to view all consultations
+                    sent to him, and to respond to any of them.*/
+                    switch (choice2) {
+                        case 1 -> doc.viewConsultations();
+                        case 2 -> doc.respondToConsultation(patient, res);
+                        default -> System.out.println("Invalid Choice");
+                        /*After the choice is entered, respective functions from the
+                        Doctor Class are called. 'Invalid Choice' is printed when a number
+                        that is not from the above is entered.*/
+                    }
+                case 3:
+                    System.out.println("\n=== Consult the Pharmacy ===");
+                    doc.consultPharmacy(pharmacist, Q);
+                    /*This part lets the doctor send a consultation to the pharmacist,
+                    calling the respective function from the Doctor Class.*/
+                case 0:
+                    AuthService.logout(doc);
+                    System.out.println("You have successfully logged out!");
+                    /*This part logs out the doctor from the system, calling the
+                    respective function from the AuthService Class.*/
+                default: System.out.println("Invalid Choice.");
+                /*If the choice entered is not from the numbers shown above,
+                'Invalid Choice' will be printed.*/
+            }
+        }
+        
     }
 }
