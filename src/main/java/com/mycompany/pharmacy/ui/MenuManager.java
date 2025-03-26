@@ -11,6 +11,9 @@ import com.mycompany.pharmacy.model.Doctor;
 import com.mycompany.pharmacy.model.Pharmacist;
 import com.mycompany.pharmacy.model.Prescription;
 import com.mycompany.pharmacy.model.User;
+import com.mycompany.pharmacy.model.MedicalRecord;
+import java.io.IOException;
+import java.util.*;
 
 import java.util.Scanner;
 
@@ -118,12 +121,16 @@ public class MenuManager {
             e.printStackTrace();
         }
     }
-     public void showDoctorMenu(Doctor doc) {
+     public void showDoctorMenu(Doctor doc) throws IOException {
         String E = " ", P = " ", Q = " ";
         String rec = " ", res = " ";
         String docName = " ", patName = " ";
         String presc = " ", Doc = " ", medInput = " ";
+        String patientEmail = " ", condition = " ", allergies = " ";
         int presID = 0;
+        int recID = 0;
+        List<MedicalRecord> history = new ArrayList<>();
+        MedicalRecord record = new MedicalRecord(patientEmail, recID, condition, presc, allergies);
         PharmSystem pharmacy = new PharmSystem(); //Object in PharmSystem.
         Prescription pres =  new Prescription(docName, patName); //Object in Prescription.
         Pharmacist pharmacist = new Pharmacist(); //Object in Pharmacist.
@@ -159,8 +166,8 @@ public class MenuManager {
                     /*This part displays the things a doctor can access in the patient's profile,
                     and asks the doctor to enter a choice.*/
                     switch (choice1) {
-                        case 1 -> doc.viewPatientHistory(patient);
-                        case 2 -> doc.addMedicalRecord(patient, rec);
+                        case 1 -> doc.viewPatientHistory(patientEmail);
+                        case 2 -> doc.addMedicalRecord(history, record);
                         case 3 -> doc.writePrescription(patient, Doc, presc, medInput, presID);
                         default -> System.out.println("Invalid Choice.");
                         /*After the choice is entered, respective functions from the
