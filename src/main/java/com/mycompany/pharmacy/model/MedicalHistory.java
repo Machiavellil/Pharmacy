@@ -14,19 +14,21 @@ import java.nio.file.*;
  * @author young
  */
 public class MedicalHistory {
+    private static final String medicalConditions = "Medical Conditions.txt";
+    private static List<String> mConditions = new ArrayList<>();
+    private String patientEmail;
     private ArrayList<Prescription> prescription = new ArrayList<>();
     private String allergies = " ";
-    private static final String medicalConditions = "Medical Conditions.txt";
-    private List<String> mConditions = new ArrayList<>();
-    private String patientEmail;
-    private void loadConditions() {
+    private List<String> patientConditions = new ArrayList<>();
+    static {
         try {
-            if (Files.exists(Paths.get(medicalConditions))) {
-                mConditions = Files.readAllLines(Paths.get(medicalConditions)).stream().filter(line -> line.startsWith(patientEmail + "|")).map(line -> line.split("\\|")[1]).toList();
-            }
+            mConditions = Files.readAllLines(Paths.get(medicalConditions));
         }
         catch (IOException e) {
             System.err.println("Error loading conditions: " + e.getMessage());
         }
-    };
+    }
+    public MedicalHistory(String patientEmail) {
+        this.patientEmail = patientEmail;
+    }
 }

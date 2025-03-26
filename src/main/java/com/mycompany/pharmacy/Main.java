@@ -63,6 +63,9 @@ public class Main {
                     } else if (role.equalsIgnoreCase("customer")) {
                         Customer customer = new Customer(email, password);
                         menuManager.showCustomerMenu(customer);
+                    } else if (role.equalsIgnoreCase("doctor")) {
+                        Doctor doctor = new Doctor(email, password);
+                        menuManager.showDoctorMenu(doctor);
                     } else {
                         System.out.println("✅ Login successful as " + role + ". No specific menu implemented yet.");
                     }
