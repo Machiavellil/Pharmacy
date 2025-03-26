@@ -15,18 +15,9 @@ public class Doctor extends User {
     PharmSystem pharm =  new PharmSystem(); //Object in PharmSystem.
     Medicine med = new Medicine(); //Object in Medicine.
     public void writePrescription(Customer patient, Prescription prescription) {
-       System.out.println("Enter the patient's email: ");
-       String patientEmail = input.nextLine();
-       pharm.findPatient(patientEmail);
-       System.out.println("\n=== Prescription ===");
-       System.out.print("Medicine: \n");
-       med.getName();
-       System.out.print("Dosage: \n");
-       dose = input.nextLine();
-       System.out.print("Other Details: \n");
-       prescriptionDetails = input.nextLine();
+
        /*This function lets the doctor search for a patient in the system by their email.
-       When the patient is found, the doctor will proceed with writing a prescription.
+       When the patient is found, the doctor will proceed with writing a prescription in txt file.
        The prescription will contain the name of the medicine, its dosage, and when to take it.*/
     };
     public void viewPatientHistory(Customer patient) {
