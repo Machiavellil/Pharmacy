@@ -137,16 +137,6 @@ public class MenuManager {
         }
     }
     public void showDoctorMenu(Doctor doc) throws IOException {
-        String patientEmail = "", condition = "", allergies = "";
-        int recID = 0;
-        String presc = "", Doc = "", medInput = "";
-        int presID = 0;
-        List<MedicalRecord> history = new ArrayList<>();
-        MedicalRecord record = new MedicalRecord(patientEmail, recID, condition, "", allergies);
-        PharmSystem pharmacy = new PharmSystem();
-        Prescription pres = new Prescription("", "");
-        Customer patient = new Customer("", "");
-
         int choice;
         Scanner input = new Scanner(System.in);
 
@@ -159,9 +149,9 @@ public class MenuManager {
             System.out.println("0. Logout");
             System.out.print("Enter your choice: ");
 
-            while (!input.hasNextInt()) { // Ensure valid integer input
+            while (!input.hasNextInt()) {
                 System.out.println("❌ Invalid input. Please enter a number.");
-                input.next(); // Discard invalid input
+                input.next();
             }
 
             choice = input.nextInt();
@@ -170,8 +160,8 @@ public class MenuManager {
             switch (choice) {
                 case 1 -> {
                     System.out.print("Please enter the patient's email: ");
-                    String e = input.nextLine();
-                    pharmacy.findPatient(e);
+                    String patientEmail = input.nextLine();
+                    
                     System.out.println("\n=== Patient's Profile ===");
                     System.out.println("1. View Patient History");
                     System.out.println("2. Add Medical Record");
@@ -183,28 +173,50 @@ public class MenuManager {
                         input.next();
                     }
 
-                    int choice1 = input.nextInt();
+                    int subChoice = input.nextInt();
                     input.nextLine(); // Clear buffer
 
-                    switch (choice1) {
-                        case 1 -> doc.viewPatientHistory(patientEmail);
-                        case 2 -> doc.addMedicalRecord(patient, record, recID, condition, presc, allergies);
-                        case 3 -> doc.writePrescription(patient, Doc, presc, medInput, presID);
-                        default -> System.out.println("Invalid Choice.");
-                        /*After the choice is entered, respective functions from the
-                        Doctor Class are called. 'Invalid Choice' is printed when a number
-                        that is not from the above is entered.*/
+                    switch (subChoice) {
+                        case 1 -> {
+                            doc.viewPatientHistory(patientEmail);
+                        }
+                        case 2 -> {
+                            System.out.print("Enter condition: ");
+                            String condition = input.nextLine();
+                            System.out.print("Enter prescriptions: ");
+                            String prescriptions = input.nextLine();
+                            System.out.print("Enter allergies: ");
+                            String allergies = input.nextLine();
+                            
+                            Customer patient = new Customer(patientEmail, "");
+                            MedicalRecord record = new MedicalRecord(patientEmail, -1, condition, prescriptions, allergies);
+                            doc.addMedicalRecord(patient, record);
+                        }
+                        case 3 -> {
+                            System.out.print("Enter medicines (comma-separated): ");
+                            String medicines = input.nextLine();
+                            Customer patient = new Customer(patientEmail, "");
+                            doc.writePrescription(patient, doc.getEmail(), medicines);
+                        }
+                        default -> System.out.println("❌ Invalid choice.");
                     }
                 }
-                case 2 -> System.out.println("✅ Viewing Consultations (Feature not yet implemented).");
-                case 3 -> System.out.println("✅ Consulting Pharmacy (Feature not yet implemented).");
+                case 2 -> doc.viewConsultations();
+                case 3 -> {
+                    System.out.print("Enter your query for the pharmacy: ");
+                    String query = input.nextLine();
+                    doc.consultPharmacy(null, query);
+                }
                 case 4 -> {
                     System.out.print("Enter new password: ");
                     String newPassword = input.nextLine();
                     doc.resetPassword(newPassword);
                     System.out.println("✅ Password updated successfully!");
                 }
-                case 0 -> System.out.println("✅ Logging out...");
+                case 0 -> {
+                    AuthService.logout(doc);
+                    System.out.println("✅ You have been logged out.");
+                }
                 default -> System.out.println("❌ Invalid choice. Try again.");
             }
 
