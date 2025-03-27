@@ -115,6 +115,7 @@ public class Doctor extends User {
               bw.write("---");
               /*This parts handles the data entry of either one medicine, or multiple
               medicines.*/
+              
         }
        catch (IOException e) {
            System.err.println("Failed to write prescription: " + e.getMessage());
