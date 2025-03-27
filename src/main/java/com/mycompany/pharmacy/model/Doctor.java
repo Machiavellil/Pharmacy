@@ -16,8 +16,8 @@ public class Doctor extends User {
     private String condition;
     private String prescriptionFile = "src/main/java/com/mycompany/pharmacy/database/prescriptions.txt"; //File variable for prescriptions.
     private String medicines = "src/main/java/com/mycompany/pharmacy/database/Drugs.txt"; //File variable for drugs.
-    private ArrayList<String> consultations = new ArrayList<>(); //List of consultations.
-    
+    private String recordsFile = "src/main/java/com/mycompany/pharmacy/database/Medical Records.txt"; //File variable for records.
+    private ArrayList<String> consultations = new ArrayList<>(); //List of consultationa.
     Scanner input = new Scanner(System.in); //Object in Scanner for inputting.
     
     public Doctor(String email, String password) {
@@ -93,13 +93,33 @@ public class Doctor extends User {
        //Catches file access errors and prints user-friendly message.
     };
     
-    public void addMedicalRecord(List<MedicalRecord> history, MedicalRecord record) {
-        if (record != null && record.getRecordNumber() > 0) {
-            history.add(record);
+    public void addMedicalRecord(User patient, MedicalRecord record, int recordNumber, String conditions, String prescription, String allergies) {
+        try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(recordsFile), StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
+           /*This part allows us to write into the file multiple times, and it
+           creates the file if it doesn't exist, and appends into the file if it exists.*/
+              bw.write("=== Medical Record for " + patient.getEmail() + " ===\n"); //Record header.
+              bw.write(String.format("Record %d:\n","Conditions %s: \n", "Prescriptions %s: \n","Allergies %s: \n", recordNumber, conditions, prescription, allergies));
+              /*Writes in the file with a fixed format.*/
+              if (record.getRecordNumber() <= 0) {
+                  record.setRecordNumber(0);
+                  bw.write("\n=== Medical Record for " + record.getPatientEmail());
+                  bw.write("Record " + record.getRecordNumber());
+              }
+              else {
+                  record.setRecordNumber(record.getRecordNumber() +1);
+                  bw.write("Record " + record.getRecordNumber());
+              }
+              bw.write("Conditions: " + record.getCondition());
+              bw.write("Presctiptions: " + record.getPrescription());
+              bw.write("Allergies: " + record.getAllergies());
+              bw.write("---");
+              /*This parts handles the data entry of either one medicine, or multiple
+              medicines.*/
         }
-        else {
-            System.err.println("Skipping invalid record for patient: " + record.getPatientEmail());
-        }
+       catch (IOException e) {
+           System.err.println("Failed to write prescription: " + e.getMessage());
+       }
+       //Catches file access errors and prints user-friendly message.
         /*This function is used to add a medical record into the patient's
         medical history.*/
     };

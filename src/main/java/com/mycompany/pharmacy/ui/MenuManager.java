@@ -184,7 +184,7 @@ public class MenuManager {
                     and asks the doctor to enter a choice.*/
                     switch (choice1) {
                         case 1 -> doc.viewPatientHistory(patientEmail);
-                        case 2 -> doc.addMedicalRecord(history, record);
+                        case 2 -> doc.addMedicalRecord(patient, record, recID, condition, presc, allergies);
                         case 3 -> doc.writePrescription(patient, Doc, presc, medInput, presID);
                         default -> System.out.println("Invalid Choice.");
                         /*After the choice is entered, respective functions from the
