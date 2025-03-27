@@ -8,7 +8,6 @@ import com.mycompany.pharmacy.handler.PharmSystem;
 import com.mycompany.pharmacy.model.Admin;
 import com.mycompany.pharmacy.model.Customer;
 import com.mycompany.pharmacy.model.Doctor;
-import com.mycompany.pharmacy.model.Pharmacist;
 import com.mycompany.pharmacy.model.Prescription;
 import com.mycompany.pharmacy.model.User;
 import com.mycompany.pharmacy.model.MedicalRecord;
@@ -140,6 +139,8 @@ public class MenuManager {
     public void showDoctorMenu(Doctor doc) throws IOException {
         String patientEmail = "", condition = "", allergies = "";
         int recID = 0;
+        String presc = "", Doc = "", medInput = "";
+        int presID = 0;
         List<MedicalRecord> history = new ArrayList<>();
         MedicalRecord record = new MedicalRecord(patientEmail, recID, condition, "", allergies);
         PharmSystem pharmacy = new PharmSystem();
@@ -187,18 +188,12 @@ public class MenuManager {
 
                     switch (choice1) {
                         case 1 -> doc.viewPatientHistory(patientEmail);
-<<<<<<< Updated upstream
                         case 2 -> doc.addMedicalRecord(patient, record, recID, condition, presc, allergies);
                         case 3 -> doc.writePrescription(patient, Doc, presc, medInput, presID);
                         default -> System.out.println("Invalid Choice.");
                         /*After the choice is entered, respective functions from the
                         Doctor Class are called. 'Invalid Choice' is printed when a number
                         that is not from the above is entered.*/
-=======
-                        case 2 -> doc.addMedicalRecord(history, record);
-                        case 3 -> doc.writePrescription(patient, "", "", "", 0);
-                        default -> System.out.println("❌ Invalid Choice.");
->>>>>>> Stashed changes
                     }
                 }
                 case 2 -> System.out.println("✅ Viewing Consultations (Feature not yet implemented).");

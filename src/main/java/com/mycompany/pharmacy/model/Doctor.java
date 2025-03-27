@@ -17,8 +17,7 @@ public class Doctor extends User {
     private String prescriptionFile = "src/main/java/com/mycompany/pharmacy/database/prescriptions.txt"; //File variable for prescriptions.
     private String medicines = "src/main/java/com/mycompany/pharmacy/database/Drugs.txt"; //File variable for drugs.
     private String recordsFile = "src/main/java/com/mycompany/pharmacy/database/Medical Records.txt"; //File variable for records.
-    private ArrayList<String> consultations = new ArrayList<>(); //List of consultationa.
-    Scanner input = new Scanner(System.in); //Object in Scanner for inputting.
+    private ArrayList<String> consultations = new ArrayList<>(); //List of consultations.    Scanner input = new Scanner(System.in); //Object in Scanner for inputting.
     
     public Doctor(String email, String password) {
         super(email, password);
@@ -27,6 +26,10 @@ public class Doctor extends User {
     
     public List<MedicalRecord> viewPatientHistory(String patientEmail) throws IOException {
         //'throws' is used incase the file reading fails.
+        String E = "", P = "";
+        User patient =  new Customer(E, P);
+        int num = 0;
+        String con = "", presc = "", aller = "";
         List<String> allLines = Files.readAllLines(Paths.get(records)); //Reads the entire file.
         List<MedicalRecord> history = new ArrayList<>();
         MedicalRecord currentRecord = null;
@@ -57,11 +60,18 @@ public class Doctor extends User {
             /*This part also works similarly to the above two parts. It extracts the text after
             'Allergies' then updates the MedicalRecord object.*/
             else if (line.equals("---")) {
-                addMedicalRecord(history, currentRecord);
+                addMedicalRecord(patient, currentRecord, num, con, presc, aller);
                 currentRecord = null;
             }
             /*This part includes a text (---) that signals the end of a record.
             After this text is recognised, addMedicalRecord() adding to the history list.*/
+        }
+        for (int i = 0; i < history.size(); i++) {
+            System.out.println("=== Patient History for " + history.get(i).getPatientEmail() + " ===");
+            System.out.println("Conditions: " + history.get(i).getCondition());
+            System.out.println("Prescriptions: " + history.get(i).getPrescription());
+            System.out.println("Allergies: " + history.get(i).getAllergies() + "\n");
+            System.out.println();
         }
         return history;
         /* A patient's history contains his past prescriptions, allergies,
@@ -126,6 +136,7 @@ public class Doctor extends User {
     };
     
     public void consultPharmacy(Pharmacist pharmacist, String query) {
+        Scanner input = new Scanner(System.in);
         System.out.println("What do you want to know about?");
         query = input.nextLine();
         System.out.println("Thank you for reaching out!\nA pharmacist will respond to you shortly.");
