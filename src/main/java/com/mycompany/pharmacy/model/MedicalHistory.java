@@ -20,6 +20,8 @@ public class MedicalHistory {
     private ArrayList<Prescription> prescription = new ArrayList<>();
     private String allergies = " ";
     private List<String> patientConditions = new ArrayList<>();
+
+    //Reads the content of the file containing medical conditions and stores it's content in an array of strings.
     static {
         try {
             mConditions = Files.readAllLines(Paths.get(medicalConditions));
@@ -28,6 +30,8 @@ public class MedicalHistory {
             System.err.println("Error loading conditions: " + e.getMessage());
         }
     }
+
+    //Constructor for medical history. Creates object of type medical history and initializes it with a patient email.
     public MedicalHistory(String patientEmail) {
         this.patientEmail = patientEmail;
     }
