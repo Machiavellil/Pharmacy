@@ -155,6 +155,7 @@ public class MenuManager {
             System.out.println(BOLD + "0. " + RESET + "Logout");
             System.out.print(YELLOW + "Enter your choice: " + RESET);
 
+            //If input is not a number, display an error message.
             while (!input.hasNextInt()) {
                 System.out.println(RED + "❌ Invalid input. Please enter a number." + RESET);
                 input.next();
@@ -174,6 +175,7 @@ public class MenuManager {
                     System.out.println(BOLD + "3. " + RESET + "Write Prescription");
                     System.out.print(YELLOW + "Enter your choice: " + RESET);
 
+                    //If input is not a number, display an error message.
                     while (!input.hasNextInt()) {
                         System.out.println(RED + "❌ Invalid input. Please enter a number." + RESET);
                         input.next();
@@ -183,7 +185,7 @@ public class MenuManager {
                     input.nextLine(); // Clear buffer
 
                     switch (subChoice) {
-                        case 1 -> doc.viewPatientHistory(patientEmail);
+                        case 1 -> doc.viewPatientHistory(patientEmail); //Display Patient's medical history.
                         case 2 -> {
                             System.out.print(YELLOW + "Enter condition: " + RESET);
                             String condition = input.nextLine();
@@ -191,12 +193,15 @@ public class MenuManager {
                             String prescriptions = input.nextLine();
                             System.out.print(YELLOW + "Enter allergies: " + RESET);
                             String allergies = input.nextLine();
-                            
+
+                            //Add a record to a patient's medical records.
                             Customer patient = new Customer(patientEmail, "");
                             MedicalRecord record = new MedicalRecord(patientEmail, -1, condition, prescriptions, allergies);
                             doc.addMedicalRecord(patient, record);
                         }
                         case 3 -> {
+
+                            //Write a prescription to a patient.
                             System.out.print(YELLOW + "Enter medicines (comma-separated): " + RESET);
                             String medicines = input.nextLine();
                             Customer patient = new Customer(patientEmail, "");
@@ -205,19 +210,25 @@ public class MenuManager {
                         default -> System.out.println(RED + "❌ Invalid choice." + RESET);
                     }
                 }
-                case 2 -> doc.viewConsultations();
+                case 2 -> doc.viewConsultations(); //Display queries sent to doctor.
                 case 3 -> {
+
+                    //Send a query to a pharmacy, to be received by a pharmacist.
                     System.out.print(YELLOW + "Enter your query for the pharmacy: " + RESET);
                     String query = input.nextLine();
                     doc.consultPharmacy(null, query);
                 }
                 case 4 -> {
+
+                    //Reset password.
                     System.out.print(YELLOW + "Enter new password: " + RESET);
                     String newPassword = input.nextLine();
                     doc.resetPassword(newPassword);
                     System.out.println(GREEN + "✅ Password updated successfully!" + RESET);
                 }
                 case 0 -> {
+
+                    //Logout
                     AuthService.logout(doc);
                     System.out.println(GREEN + "✅ You have been logged out." + RESET);
                 }
