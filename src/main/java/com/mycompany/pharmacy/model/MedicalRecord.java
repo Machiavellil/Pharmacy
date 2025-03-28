@@ -51,7 +51,7 @@ public class MedicalRecord {
         return prescription;
     }
     public void setAllergies(String Allergies) {
-        this.allergies = allergies;
+        this.allergies = Allergies;
     }
     public String getAllergies() {
         return allergies;
