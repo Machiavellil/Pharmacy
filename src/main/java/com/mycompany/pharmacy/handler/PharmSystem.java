@@ -15,6 +15,8 @@ public class PharmSystem {
         /*A constructor that will create a new object in 'System' class.
         'patient' will be initialised as an empty ArrayList.*/
     }
+
+    //Search for a patient. Recieves email and returns customer object.
     public Customer findPatient(String email) {
         for (Customer patient : patient) {
             if (patient.getEmail().equalsIgnoreCase(email)) {
@@ -28,6 +30,8 @@ public class PharmSystem {
         it registers the patient and returns null.*/
         return null;
     }
+
+    //Display patients. Displays a list of currently available patients.
     public void displayPatients() {
         System.out.println("Current Patients: ");
         for (Customer p : patient) {
