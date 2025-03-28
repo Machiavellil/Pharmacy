@@ -16,6 +16,7 @@ public class Doctor extends User {
     private final MedicineHandler medicineHandler;
     private final List<MedicalRecord> patientRecords = new ArrayList<>(); // Changed to ArrayList
 
+    //Doctor constructor. Creates a doctor object and initializes it with a given email and password
     public Doctor(String email, String password) {
         super(email, password);
         this.medicineHandler = new MedicineHandler();
@@ -26,6 +27,8 @@ public class Doctor extends User {
     public List<MedicalRecord> viewPatientHistory(String patientEmail) {
         List<MedicalRecord> history = new ArrayList<>();
 
+        //Checks the found medical record's patient email is the same as entered patient email.
+        //if it is, it adds the record to and array of medical records which holds the patient's medical history.
         for (MedicalRecord record : patientRecords) {
             if (record.getPatientEmail().equals(patientEmail)) {
                 history.add(record);
@@ -54,6 +57,10 @@ public class Doctor extends User {
             List<Medicine> prescribedMedicines = new ArrayList<>();
             String[] medicines = medicinesInput.split(",");
 
+            //Loops through an array of strings, this array contains medicine names.
+            //Inside the body of the loop, a medicine object is created.
+            //The medicine object searches for the medicine specified in the medicine array.
+            //If the medicine is valid, it adds it prescribes it to the patient, otherwise display an error message.
             for (String medName : medicines) {
                 Medicine medicine = medicineHandler.searchMedicineByName(medName.trim());
                 if (medicine != null) {
