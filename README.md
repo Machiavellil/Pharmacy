@@ -64,7 +64,7 @@ The system follows an **Object-Oriented Programming (OOP)** approach, ensuring m
 1. Clone the repository:
    ```sh
    git clone https://github.com/Machiavellil/Pharmacy.git
-   cd pharmacy-management-system
+   cd Pharmacy
    ```
 2. Open the project in NetBeans or your preferred Java IDE.
 3. Compile and run the main class:
