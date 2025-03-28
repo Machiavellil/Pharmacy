@@ -2,7 +2,7 @@ package com.mycompany.pharmacy.model;
 import com.mycompany.pharmacy.handler.PrescriptionManager;
 import com.mycompany.pharmacy.handler.MedicineHandler;
 import java.util.*;
-import java.io.*; //Exception Handling
+import java.io.*; //Exception Handling.
 import java.nio.file.*;
 
 public class Doctor extends User {
@@ -14,27 +14,26 @@ public class Doctor extends User {
     private ArrayList<String> consultations = new ArrayList<>();
     private final PrescriptionManager prescriptionManager;
     private final MedicineHandler medicineHandler;
-    private final List<MedicalRecord> patientRecords = new ArrayList<>(); // Changed to ArrayList
+    private final List<MedicalRecord> patientRecords = new ArrayList<>(); //List change to ArrayList.
 
-    //Doctor constructor. Creates a doctor object and initializes it with a given email and password
+    //A constructor that creates an object in Doctor and initializes it with a given email and password.
     public Doctor(String email, String password) {
         super(email, password);
         this.medicineHandler = new MedicineHandler();
         this.prescriptionManager = new PrescriptionManager(medicineHandler);
     }
 
-    //View patient history by email.
+    //A function that lets the doctor view patient history by email.
     public List<MedicalRecord> viewPatientHistory(String patientEmail) {
         List<MedicalRecord> history = new ArrayList<>();
 
-        //Checks the found medical record's patient email is the same as entered patient email.
-        //if it is, it adds the record to and array of medical records which holds the patient's medical history.
+        /*This loop checks if the found medical records' patient email is the same as the entered patient email.
+        If it is, it adds the record to an array of medical records which holds the patient's medical history.*/
         for (MedicalRecord record : patientRecords) {
             if (record.getPatientEmail().equals(patientEmail)) {
                 history.add(record);
             }
         }
-
         if (history.isEmpty()) {
             System.out.println("📄 No medical records found for " + patientEmail);
         } else {
@@ -47,7 +46,6 @@ public class Doctor extends User {
                 System.out.println("---");
             }
         }
-
         return history;
     }
 
@@ -57,10 +55,9 @@ public class Doctor extends User {
             List<Medicine> prescribedMedicines = new ArrayList<>();
             String[] medicines = medicinesInput.split(",");
 
-            //Loops through an array of strings, this array contains medicine names.
-            //Inside the body of the loop, a medicine object is created.
-            //The medicine object searches for the medicine specified in the medicine array.
-            //If the medicine is valid, it adds and prescribes it to the patient, otherwise display an error message.
+            /*This loops through an array of strings, this array contains medicine names. Inside the body of the loop,
+            a medicine object is created. This object searches for the medicine specified in the medicine array.
+            If the medicine is valid, it adds and prescribes it to the patient, otherwise display an error message.*/
             for (String medName : medicines) {
                 Medicine medicine = medicineHandler.searchMedicineByName(medName.trim());
                 if (medicine != null) {
@@ -69,7 +66,6 @@ public class Doctor extends User {
                     System.out.println("⚠️ Warning: Medicine '" + medName.trim() + "' not found in inventory.");
                 }
             }
-
             if (!prescribedMedicines.isEmpty()) {
                 Prescription prescription = prescriptionManager.createPrescription(doctorName, patient.getEmail(), prescribedMedicines);
                 System.out.println("✅ Prescription written successfully!");
@@ -92,7 +88,7 @@ public class Doctor extends User {
         try {
             int recordNumber = patientRecords.size() + 1;
             record.setRecordNumber(recordNumber);
-            record.setPatientEmail(patient.getEmail()); // Ensure the email is stored in each record
+            record.setPatientEmail(patient.getEmail()); //Ensures the email is stored in each record.
             patientRecords.add(record);
 
             System.out.println("✅ Medical record added successfully!");
@@ -103,14 +99,14 @@ public class Doctor extends User {
         }
     }
 
-    //consult a pharmacy. Sends a query to a pharmacist.
+    //Consults a pharmacy by sending a query to a pharmacist.
     public void consultPharmacy(Pharmacist pharmacist, String query) {
         System.out.println("📝 Your consultation has been sent to the pharmacy.");
         System.out.println("👨‍⚕️ A pharmacist will review and respond to your query shortly.");
         consultations.add(query);
     }
 
-    //View consultations. Allows doctor to view queries sent to him.
+    //Allows doctor to view consultations/queries sent to him.
     public void viewConsultations() {
         if (consultations.isEmpty()) {
             System.out.println("📄 No consultations available.");
@@ -123,7 +119,7 @@ public class Doctor extends User {
         }
     }
 
-    //Respond to consultations. Allows doctor to respond to consultations sent by patients.
+    //Allows the doctor to respond to consultations sent by patients.
     public void respondToConsultation(Customer patient, String response) {
         System.out.println("📝 Response sent to patient: " + patient.getEmail());
         System.out.println("Response: " + response);

@@ -15,8 +15,8 @@ public class MedicalRecord {
     private String prescription;
     private String allergies;
 
-    //Constructor for medical record. creates and object of type medical record.
-    //Initializes the object with a patient email, record number, condition, prescription and allergies.
+    /*Constructor creates an object of type medical record. Initializes the object
+    with a patient's email, record number, condition, prescription and allergies.*/
     public MedicalRecord(String patientEmail, int recordNumber, String condition, String prescription, String allergies) {
         this.patientEmail = patientEmail;
         this.recordNumber = recordNumber;
@@ -25,21 +25,17 @@ public class MedicalRecord {
         this.allergies = allergies;
     }
 
-    public String fileFormat() {
-        return String.format("=== Medical Record for %s ===\n" + "Record %d: \n" + "Conditions: %s\n" + "Prescriptions: %s\n" + "Allergies: %s\n" + "---", patientEmail, recordNumber, condition, prescription, allergies);
-    }
-
-    //Sets the patient email.
+    //Sets the patient's email.
      public void setPatientEmail(String patientEmail) {
         this.patientEmail = patientEmail;
     }
 
-    //Returns the patient email.
+    //Returns the patient's email.
     public String getPatientEmail() {
         return patientEmail;
     }
 
-    //Sets the recordd number.
+    //Sets the record number.
     public void setRecordNumber(int recordNumber) {
         this.recordNumber = recordNumber;
     }

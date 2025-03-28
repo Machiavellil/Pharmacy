@@ -31,7 +31,7 @@ public class MedicalHistory {
         }
     }
 
-    //Constructor for medical history. Creates object of type medical history and initializes it with a patient email.
+    //Constructor creates object of type medical history and initializes it with a patient's email.
     public MedicalHistory(String patientEmail) {
         this.patientEmail = patientEmail;
     }

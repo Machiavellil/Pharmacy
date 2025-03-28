@@ -162,7 +162,7 @@ public class MenuManager {
             }
 
             choice = input.nextInt();
-            input.nextLine(); // Clear newline from buffer
+            input.nextLine(); //Clears buffer.
 
             switch (choice) {
                 case 1 -> {
@@ -182,7 +182,7 @@ public class MenuManager {
                     }
 
                     int subChoice = input.nextInt();
-                    input.nextLine(); // Clear buffer
+                    input.nextLine(); //Clears buffer.
 
                     switch (subChoice) {
                         case 1 -> doc.viewPatientHistory(patientEmail); //Display Patient's medical history.
@@ -228,7 +228,7 @@ public class MenuManager {
                 }
                 case 0 -> {
 
-                    //Logout
+                    //Logout.
                     AuthService.logout(doc);
                     System.out.println(GREEN + "✅ You have been logged out." + RESET);
                 }

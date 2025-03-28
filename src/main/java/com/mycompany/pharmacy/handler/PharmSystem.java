@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class PharmSystem {
     private final ArrayList<Customer> patient; //List of patients.
-    String EMAIL, PASSWORD; //Variables for the object
+    String EMAIL, PASSWORD; //Variables for the object.
     Customer customer = new Customer(EMAIL, PASSWORD); //Object in Customer
     public PharmSystem() {
         patient = new ArrayList<>(); 
@@ -16,7 +16,6 @@ public class PharmSystem {
         'patient' will be initialised as an empty ArrayList.*/
     }
 
-    //Search for a patient. Receives email and returns customer object.
     public Customer findPatient(String email) {
         for (Customer patient : patient) {
             if (patient.getEmail().equalsIgnoreCase(email)) {
@@ -31,7 +30,6 @@ public class PharmSystem {
         return null;
     }
 
-    //Display patients. Displays a list of currently available patients.
     public void displayPatients() {
         System.out.println("Current Patients: ");
         for (Customer p : patient) {
