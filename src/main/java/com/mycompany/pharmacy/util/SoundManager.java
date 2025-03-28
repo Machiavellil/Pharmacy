@@ -12,7 +12,7 @@ public class SoundManager {
     public static void playBackgroundMusic() {
         try {
             if (!isPlaying) {
-                FileInputStream fis = new FileInputStream("src/main/java/com/mycompany/pharmacy/util/1min-2021-08-17_-_8_Bit_Nostalgia_-_www.FesliyanStudios.com.mp3");
+                FileInputStream fis = new FileInputStream("src/main/java/com/mycompany/pharmacy/util/toby fox - UNDERTALE Soundtrack - 04 Fallen Down.mp3");
                 player = new Player(fis);
                 
                 musicThread = new Thread(() -> {
