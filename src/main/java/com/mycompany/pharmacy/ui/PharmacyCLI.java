@@ -9,6 +9,7 @@ import com.mycompany.pharmacy.handler.MedicineHandler;
 import com.mycompany.pharmacy.model.*;
 import com.mycompany.pharmacy.util.SoundManager;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class PharmacyCLI {
@@ -16,6 +17,7 @@ public class PharmacyCLI {
     private final MedicineHandler medicineHandler;
     private final MenuManager menuManager;
     private final AuthService authService;
+ 
 
     // ANSI color codes
     private static final String RESET = "\u001B[0m";
@@ -32,19 +34,19 @@ public class PharmacyCLI {
             \u001B[36m
             ██████╗ ██╗  ██╗ █████╗ ██████╗ ███╗   ███╗ █████╗ ██████╗ ██╗   ██╗
             ██╔══██╗██║ ██╔╝██╔══██╗██╔══██╗████╗ ████║██╔══██╗██╔══██╗╚██╗ ██╔╝
-            ██████╔╝█████╔╝ ███████║██████╔╝██╔████╔██║███████║██████╔╝ ╚████╔╝ 
+            ██████╔╝████╔╝ ███████║██████╔╝██╔████╔██║███████║██████╔╝ ╚████╔╝ 
             ██╔═══╝ ██╔═██╗ ██╔══██║██╔══██╗██║╚██╔╝██║██╔══██║██╔══██╗  ╚██╔╝  
             ██║     ██║  ██║██║  ██║██║  ██║██║ ╚═╝ ██║██║  ██║██║  ██║   ██║   
             ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   
             \u001B[33m
             ╔════════════════════════════════════════════════════════════════════════════╗
-            ║                     Welcome to Pharmacy Management System                  ║
-            ║                     Your Trusted Healthcare Partner                        ║
+            ║                     Welcome to Pharmacy Management System       ║
+            ║                     Your Trusted Healthcare Partner             ║
             ╚════════════════════════════════════════════════════════════════════════════╝
             """;
 
     public PharmacyCLI() {
-        this.scanner = new Scanner(System.in);
+        this.scanner = new Scanner(System.in, StandardCharsets.UTF_8.name());
         this.medicineHandler = new MedicineHandler();
         this.menuManager = new MenuManager(medicineHandler);
         this.authService = new AuthService();
