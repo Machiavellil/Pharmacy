@@ -22,6 +22,7 @@ public class Doctor extends User {
         this.prescriptionManager = new PrescriptionManager(medicineHandler);
     }
 
+    //View patient history by email.
     public List<MedicalRecord> viewPatientHistory(String patientEmail) {
         List<MedicalRecord> history = new ArrayList<>();
 
@@ -47,6 +48,7 @@ public class Doctor extends User {
         return history;
     }
 
+    //Write a prescription for a patient. Writes prescription to an external text file.
     public void writePrescription(User patient, String doctorName, String medicinesInput) {
         try {
             List<Medicine> prescribedMedicines = new ArrayList<>();
@@ -78,6 +80,7 @@ public class Doctor extends User {
         }
     }
 
+    //Add a medical record for a patient.
     public void addMedicalRecord(User patient, MedicalRecord record) {
         try {
             int recordNumber = patientRecords.size() + 1;
@@ -93,12 +96,14 @@ public class Doctor extends User {
         }
     }
 
+    //consult a pharmacy. Sends a query to a pharmacist.
     public void consultPharmacy(Pharmacist pharmacist, String query) {
         System.out.println("📝 Your consultation has been sent to the pharmacy.");
         System.out.println("👨‍⚕️ A pharmacist will review and respond to your query shortly.");
         consultations.add(query);
     }
 
+    //View consultations. Allows doctor to view queries sent to him.
     public void viewConsultations() {
         if (consultations.isEmpty()) {
             System.out.println("📄 No consultations available.");
@@ -111,6 +116,7 @@ public class Doctor extends User {
         }
     }
 
+    //Respond to consultations. Allows doctor to respond to consultations sent by patients.
     public void respondToConsultation(Customer patient, String response) {
         System.out.println("📝 Response sent to patient: " + patient.getEmail());
         System.out.println("Response: " + response);
