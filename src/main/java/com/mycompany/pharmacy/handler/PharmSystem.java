@@ -16,7 +16,7 @@ public class PharmSystem {
         'patient' will be initialised as an empty ArrayList.*/
     }
 
-    //Search for a patient. Recieves email and returns customer object.
+    //Search for a patient. Receives email and returns customer object.
     public Customer findPatient(String email) {
         for (Customer patient : patient) {
             if (patient.getEmail().equalsIgnoreCase(email)) {

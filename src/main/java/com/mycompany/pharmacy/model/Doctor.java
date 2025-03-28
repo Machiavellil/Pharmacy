@@ -60,7 +60,7 @@ public class Doctor extends User {
             //Loops through an array of strings, this array contains medicine names.
             //Inside the body of the loop, a medicine object is created.
             //The medicine object searches for the medicine specified in the medicine array.
-            //If the medicine is valid, it adds it prescribes it to the patient, otherwise display an error message.
+            //If the medicine is valid, it adds and prescribes it to the patient, otherwise display an error message.
             for (String medName : medicines) {
                 Medicine medicine = medicineHandler.searchMedicineByName(medName.trim());
                 if (medicine != null) {
