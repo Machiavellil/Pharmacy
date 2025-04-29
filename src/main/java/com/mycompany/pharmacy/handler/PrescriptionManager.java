@@ -25,6 +25,7 @@ public class PrescriptionManager {
         return p;
     }
 
+
     public Prescription getPrescriptionById(int id) {
         return prescriptions.stream()
                 .filter(p -> p.getPrescriptionId() == id)
@@ -47,4 +48,7 @@ public class PrescriptionManager {
     public void savePrescriptions() {
         persistence.savePrescriptions(prescriptions);
     }
+
+
+
 }

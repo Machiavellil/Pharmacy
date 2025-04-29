@@ -23,6 +23,11 @@ public class Doctor extends User {
         this.prescriptionManager = new PrescriptionManager(medicineHandler);
     }
 
+    @Override
+    public String getRole() {
+        return "doctor";
+    }
+
     //A function that lets the doctor view patient history by email.
     public List<MedicalRecord> viewPatientHistory(String patientEmail) {
         List<MedicalRecord> history = new ArrayList<>();

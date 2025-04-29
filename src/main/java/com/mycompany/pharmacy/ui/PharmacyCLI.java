@@ -40,8 +40,8 @@ public class PharmacyCLI {
             ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   
             \u001B[33m
             ╔════════════════════════════════════════════════════════════════════════════╗
-            ║                     Welcome to Pharmacy Management System       ║
-            ║                     Your Trusted Healthcare Partner             ║
+            ║                     Welcome to Pharmacy Management System                  ║
+            ║                     Your Trusted Healthcare Partner                        ║
             ╚════════════════════════════════════════════════════════════════════════════╝
             """;
 

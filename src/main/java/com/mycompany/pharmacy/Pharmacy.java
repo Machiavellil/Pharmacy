@@ -59,18 +59,37 @@ import java.io.PrintStream;
  */
 
 
+//public class Pharmacy {
+//    public static void main(String[] args) throws IOException {
+//        System.setProperty("file.encoding", "UTF-8");
+//        PrintStream ps = new PrintStream(System.out, true, StandardCharsets.UTF_8);
+//        System.setOut(ps);
+//
+//
+//        System.out.println(Ansi.ansi().eraseScreen().fgBrightGreen().a("✅ UTF-8").reset());
+//
+//        PharmacyCLI cli = new PharmacyCLI();
+//        cli.start();
+//
+//    }
+//}
+
+import com.mycompany.pharmacy.GUI.LoginFrame;
+import javax.swing.*;
+
 public class Pharmacy {
-    public static void main(String[] args) throws IOException {
-        System.setProperty("file.encoding", "UTF-8");
-        PrintStream ps = new PrintStream(System.out, true, StandardCharsets.UTF_8);
-        System.setOut(ps);
+    public static void main(String[] args) {
+        // Set look and feel to system default
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-  
-        System.out.println(Ansi.ansi().eraseScreen().fgBrightGreen().a("✅ UTF-8").reset());
-
-        PharmacyCLI cli = new PharmacyCLI();
-        cli.start();
-
+        // Run the application on the Event Dispatch Thread
+        SwingUtilities.invokeLater(() -> {
+            LoginFrame loginFrame = new LoginFrame();
+            loginFrame.setVisible(true);
+        });
     }
 }
-

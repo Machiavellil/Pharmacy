@@ -1,9 +1,11 @@
 package com.mycompany.pharmacy.auth;
 
+import com.mycompany.pharmacy.model.Admin;
 import com.mycompany.pharmacy.model.User;
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 public class AuthService {
 
@@ -104,4 +106,76 @@ public class AuthService {
 
         passwordReset.requestReset(email);
     }
+
+
+
+    public static List<User> getAllUsers() throws IOException {
+        List<User> users = new java.util.ArrayList<>();
+        BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/mycompany/pharmacy/database/users.txt"));
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] data = line.split(",");
+            if (data.length >= 3) {
+                String email = data[0];
+                String password = data[1];
+                String role = data[2];
+
+                User user = switch (role.toLowerCase()) {
+                    case "admin" -> new Admin(email, password);
+                    case "customer" -> new com.mycompany.pharmacy.model.Customer(email, password);
+                    case "doctor" -> new com.mycompany.pharmacy.model.Doctor(email, password);
+                    case "pharmacist" -> new com.mycompany.pharmacy.model.Pharmacist(email, password, null); // if you have a specialization field you can handle it later
+                    case "delivery" -> new com.mycompany.pharmacy.model.DeliveryAgent(email, password);
+                    default -> null;
+                };
+
+                if (user != null) {
+                    users.add(user);
+                }
+            }
+        }
+        br.close();
+        return users;
+    }
+
+
+
+    public static void deleteUser(String email) throws IOException {
+        File inputFile = new File("src/main/java/com/mycompany/pharmacy/database/users.txt");
+        File tempFile = new File("src/main/java/com/mycompany/pharmacy/database/temp_users.txt");
+
+        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+        String currentLine;
+        boolean found = false;
+
+        while ((currentLine = reader.readLine()) != null) {
+            String[] data = currentLine.split(",");
+            if (data.length >= 3) {
+                if (!data[0].equals(email)) {
+                    writer.write(currentLine);
+                    writer.newLine();
+                } else {
+                    found = true;
+                }
+            }
+        }
+
+        writer.close();
+        reader.close();
+
+        if (!inputFile.delete() || !tempFile.renameTo(inputFile)) {
+            System.out.println("❌ Failed to delete user");
+        } else if (found) {
+            System.out.println("✅ User deleted successfully");
+        } else {
+            System.out.println("⚠️ User not found");
+        }
+    }
+
+
+
+
 }
+

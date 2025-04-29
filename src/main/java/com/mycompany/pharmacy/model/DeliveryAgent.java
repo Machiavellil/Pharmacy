@@ -12,6 +12,11 @@ public class DeliveryAgent extends User {
         super(email, password);
     }
 
+    @Override
+    public String getRole() {
+        return "DeliveryAgent";
+    }
+
     public void viewAssignedDeliveries() {
         System.out.println("\n\ud83d\udce6 Assigned Deliveries:");
         if (assignedDeliveries.isEmpty()) {

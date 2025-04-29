@@ -44,4 +44,9 @@ public class Pharmacist extends User {
     public void respondToDoctorQuery(Doctor doctor, String response) {
         System.out.println("Response to Doctor " + doctor.getEmail() + ": " + response);
     }
+
+    @Override
+    public String getRole() {
+        return "pharmacist";
+    }
 }

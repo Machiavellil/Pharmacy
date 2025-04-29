@@ -13,6 +13,10 @@ public class Admin extends User {
         super(email, password);
     }
 
+    @Override
+    public String getRole() {
+        return "admin";
+    }
 
 
     // Add user with role

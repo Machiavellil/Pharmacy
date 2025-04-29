@@ -6,14 +6,37 @@ import com.mycompany.pharmacy.handler.PrescriptionManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Customer extends User {
     private final Cart cart = new Cart();
     private final List<Order> orderHistory = new ArrayList<>();
     private final List<Prescription> prescriptions = new ArrayList<>();
+    private String name = "";
+    private String phone = "";
+    private String address = "";
 
     public Customer(String email, String password) {
         super(email, password);
+        // Initialize name as the email username by default
+        this.name = email.split("@")[0];
+    }
+
+    // Profile methods
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
+    
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+
+    @Override
+    public String getRole() {
+        return "customer";
     }
 
     public void loadPrescriptions(PrescriptionManager prescriptionManager) {
@@ -102,6 +125,23 @@ public class Customer extends User {
         }
     }
 
+    public boolean cancelOrder(String orderNumber) {
+        if (orderHistory.isEmpty()) {
+            return false;
+        }
+
+        for (Order order : orderHistory) {
+            if (order.getOrderId().equals(orderNumber)) {
+                if (order.getStatus().equalsIgnoreCase("Cancelled")) {
+                    return false;
+                }
+                order.updateStatus("Cancelled");
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void addPrescription(Prescription prescription) {
         prescriptions.add(prescription);
         System.out.println("✅ Prescription added successfully.");
@@ -111,9 +151,38 @@ public class Customer extends User {
         return prescriptions;
     }
 
-    public boolean hasValidPrescriptionFor(Medicine selected) {
-        return prescriptions.stream()
-                .anyMatch(p -> p.isMedicineAllowed(selected));
+    public boolean hasValidPrescriptionFor(Medicine medicine) {
+        // Read prescriptions from file
+        String prescriptionsFile = "src/main/java/com/mycompany/pharmacy/database/prescriptions.txt";
+        try (BufferedReader reader = new BufferedReader(new FileReader(prescriptionsFile))) {
+            String line;
+            String currentPatient = null;
+            String currentMedicine = null;
+
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("MED:")) {
+                    currentMedicine = line.substring(4).trim();
+                } else if (line.equals("END")) {
+                    // If this prescription is for the current customer and matches the medicine
+                    if (currentPatient != null && currentPatient.equals(this.email) 
+                            && currentMedicine != null && currentMedicine.equals(medicine.getName())) {
+                        return true;
+                    }
+                    currentPatient = null;
+                    currentMedicine = null;
+                } else {
+                    // This is the prescription header line
+                    String[] parts = line.split(",");
+                    if (parts.length >= 3) {
+                        currentPatient = parts[2];
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("❌ Error checking prescriptions: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public void viewPrescriptions() {
@@ -123,5 +192,9 @@ public class Customer extends User {
         }
         System.out.println("\n=== Your Prescriptions ===");
         prescriptions.forEach(Prescription::displayPrescription);
+    }
+
+    public List<Order> getOrderHistory() {
+        return orderHistory;
     }
 }
