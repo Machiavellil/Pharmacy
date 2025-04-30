@@ -215,7 +215,7 @@ public class LoginFrame extends JFrame {
                 switch (role.toLowerCase()) {
                     case "admin" -> new AdminDashboard(new Admin(email, password)).setVisible(true);
                     case "customer" -> new CustomerDashboard(new Customer(email, password)).setVisible(true);
-//                    case "doctor" -> new DoctorDashboard(new Doctor(email, password)).setVisible(true);
+                    case "doctor" -> new DoctorDashboard(new Doctor(email, password)).setVisible(true);
                     case "pharmacist" -> new PharmacistDashboard(new Pharmacist(email, password, null)).setVisible(true);
 //                    case "delivery" -> new DeliveryAgentDashboard(new DeliveryAgent(email, password)).setVisible(true);
                 }

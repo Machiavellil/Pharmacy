@@ -4,3 +4,6 @@ END
 5,doc,ali
 MED:Azithromycin
 END
+3,doc,ali
+MED:Acyclovir
+END
