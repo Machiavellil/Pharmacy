@@ -110,8 +110,14 @@
             <artifactId>jlayer</artifactId>
             <version>1.0.1</version>
         </dependency>
-        
-        
+
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derbyclient</artifactId>
+            <version>10.15.2.0</version> <!-- or latest -->
+        </dependency>
+
+
         <dependency>
     <groupId>org.fusesource.jansi</groupId>
     <artifactId>jansi</artifactId>

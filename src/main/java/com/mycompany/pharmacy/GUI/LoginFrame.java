@@ -217,7 +217,6 @@ public class LoginFrame extends JFrame {
                     case "customer" -> new CustomerDashboard(new Customer(email, password)).setVisible(true);
                     case "doctor" -> new DoctorDashboard(new Doctor(email, password)).setVisible(true);
                     case "pharmacist" -> new PharmacistDashboard(new Pharmacist(email, password, null)).setVisible(true);
-//                    case "delivery" -> new DeliveryAgentDashboard(new DeliveryAgent(email, password)).setVisible(true);
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid credentials!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -242,7 +241,7 @@ public class LoginFrame extends JFrame {
         JTextField emailField = createTextField("Email");
         JPasswordField passwordField = createPasswordField("Password");
 
-        JComboBox<String> roleComboBox = new JComboBox<>(new String[]{"admin", "customer", "doctor", "pharmacist", "delivery"});
+        JComboBox<String> roleComboBox = new JComboBox<>(new String[]{"admin", "customer", "doctor", "pharmacist"});
         roleComboBox.setFont(TEXT_FONT);
         roleComboBox.setBackground(BACKGROUND_COLOR);
         roleComboBox.setForeground(TEXT_COLOR);
@@ -291,7 +290,6 @@ public class LoginFrame extends JFrame {
             case "customer" -> new Customer(email, password);
             case "doctor" -> new Doctor(email, password);
             case "pharmacist" -> new Pharmacist(email, password, null);
-            case "delivery" -> new DeliveryAgent(email, password);
             default -> null;
         };
     }
